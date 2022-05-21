@@ -81,12 +81,12 @@ const Page = ({ data }) => {
             </div>
             <div className="border p-4 space-y-4 rounded min-h-menu">
               {page.map((category, index) => (
-                <div key={index}>
+                <div key={index} className="space-y-2">
                   <h5 className="text-black uppercase text-xl mb-4 font-bold">
                     {category.name}
                   </h5>
                   {category.items.map((item, index) => (
-                    <div className="space-y-2" key={index}>
+                    <div key={index}>
                       <div
                         className={`text-sm text-black grid ${
                           item.shot ? "grid-cols-5" : "grid-cols-4"
