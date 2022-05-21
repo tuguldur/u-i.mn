@@ -20,8 +20,23 @@ export async function getServerSideProps() {
       })
     );
     data = data.sort((a, b) => a.number - b.number);
+    let pages = [];
+    data.map((category) => {
+      const page = data.filter(({ page }) => {
+        return category.page === page;
+      });
+      if (page && page.length) {
+        var found = false;
+        pages.map((item) => {
+          if (item.find(({ _id }) => _id === category._id)) {
+            found = true;
+          }
+        });
+        if (!found) pages.push(page);
+      }
+    });
     return {
-      props: { data },
+      props: { data: pages },
     };
   } catch (error) {
     console.log(error);
@@ -53,7 +68,7 @@ const Page = ({ data }) => {
         <meta property="og:image" content="https://www.u-i.mn/menu/001.png" />
       </Head>
       <main className="mt-20 mx-auto max-w-menu space-y-4 sm:p-0 px-2">
-        {data.map((category, index) => (
+        {data.map((page, index) => (
           <section className="bg-menu p-4 rounded relative pb-8" key={index}>
             <div className="absolute flex right-0 left-0 bottom-2 justify-center">
               <Image
@@ -65,37 +80,45 @@ const Page = ({ data }) => {
               />
             </div>
             <div className="border p-4 space-y-4 rounded min-h-menu">
-              <h5 className="text-black uppercase text-xl font-bold">
-                {category.name}
-              </h5>
-              {category.items.map((item, index) => (
-                <div className="space-y-2" key={index}>
-                  <div
-                    className={`text-sm text-black grid ${
-                      item.shot ? "grid-cols-5" : "grid-cols-4"
-                    }`}
-                  >
-                    {/* <span className="font-bold col-span-3">
+              {page.map((category, index) => (
+                <div key={index}>
+                  <h5 className="text-black uppercase text-xl mb-4 font-bold">
+                    {category.name}
+                  </h5>
+                  {category.items.map((item, index) => (
+                    <div className="space-y-2" key={index}>
+                      <div
+                        className={`text-sm text-black grid ${
+                          item.shot ? "grid-cols-5" : "grid-cols-4"
+                        }`}
+                      >
+                        {/* <span className="font-bold col-span-3">
                       {item.number}. {item.name}
                     </span> */}
-                    <span className="font-bold col-span-3">{item.name}</span>
-                    <div
-                      className={`${
-                        item.shot ? "col-span-2" : "col-span-1"
-                      } font-bold ml-auto text-right`}
-                    >
-                      <p>{Format(item.price)}</p>
-                      {item.shot && item.shot > 0 && (
-                        <div className="flex flex-row items-center">
-                          <span className="text-gray-500 text-xs mr-2 font-normal">
-                            {item.shot_label}
-                          </span>
-                          <span>{Format(item.shot)}</span>
+                        <span className="font-bold col-span-3">
+                          {item.name}
+                        </span>
+                        <div
+                          className={`${
+                            item.shot ? "col-span-2" : "col-span-1"
+                          } font-bold ml-auto text-right`}
+                        >
+                          <p>{Format(item.price)}</p>
+                          {item.shot && item.shot > 0 && (
+                            <div className="flex flex-row items-center">
+                              <span className="text-gray-500 text-xs mr-2 font-normal">
+                                {item.shot_label}
+                              </span>
+                              <span>{Format(item.shot)}</span>
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
+                      <p className="text-xs text-gray-600">
+                        {item.description}
+                      </p>
                     </div>
-                  </div>
-                  <p className="text-xs text-gray-600">{item.description}</p>
+                  ))}
                 </div>
               ))}
             </div>
