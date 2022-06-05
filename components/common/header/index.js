@@ -44,12 +44,12 @@ const Header = () => {
                       </Link>
                     </li>
                     <li>
-                      <button
+                      <a
+                        href="tel:77883034"
                         className="px-2 py-1 rounded-lg border border-brand-primary hover:ring-1 ring-brand-primary hover:bg-brand-primary-primary/10 active:bg-brand-primary-primary/30 flex"
-                        onClick={() => setModal(true)}
                       >
                         Захиалга
-                      </button>
+                      </a>
                     </li>
                   </ul>
                 </nav>
@@ -82,12 +82,13 @@ const Header = () => {
                       </Link>
                     </li>
                     <li className="sm:hidden block">
-                      <button
+                      <a
+                        href="tel:77883034"
                         className="px-2 py-1 rounded-lg border border-brand-primary hover:ring-1 ring-brand-primary hover:bg-brand-primary-primary/10 active:bg-brand-primary-primary/30 flex"
-                        onClick={() => setModal(true)}
+                        // onClick={() => setModal(true)}
                       >
                         Захиалга
-                      </button>
+                      </a>
                     </li>
                   </ul>
                 </div>
