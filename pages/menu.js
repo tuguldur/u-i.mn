@@ -3,6 +3,7 @@ import axios from "axios";
 import Image from "next/image";
 export async function getServerSideProps() {
   try {
+    var dont_order = ["medium", "small", "tower"];
     const { data: menus } = await axios.get(
       process.env.NEXT_PUBLIC_API + "/menus?_limit=500"
     );
@@ -16,7 +17,11 @@ export async function getServerSideProps() {
         items:
           menus
             .filter(({ category }) => category._id === item._id)
-            .sort((a, b) => a.name.localeCompare(b.name)) || false,
+            .sort(
+              (a, b) =>
+                !dont_order.includes(a.name.toLowerCase()) &&
+                a.name.localeCompare(b.name)
+            ) || false,
       })
     );
     data = data.sort((a, b) => a.number - b.number);
